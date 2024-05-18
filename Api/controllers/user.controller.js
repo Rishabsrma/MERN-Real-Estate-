@@ -1,5 +1,5 @@
 export const test = (req, res) => {
   res.json({
-    message: 'api route bro',
+    message: 'This is the user profile api',
   });
 };

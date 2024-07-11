@@ -7,7 +7,6 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { app } from '../firebase';
-
 export default function Profile() {
   const fileRef = useRef(null);
   const { currentUser } = useSelector((state) => state.user);
@@ -39,13 +38,12 @@ export default function Profile() {
         setFileUploadError(true);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setFormData({ ...formData, profilepic: downloadURL });
-        });
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
+          setFormData({ ...formData, avatar: downloadURL })
+        );
       }
     );
   };
-
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -76,7 +74,6 @@ export default function Profile() {
             ''
           )}
         </p>
-
         <input
           type="text"
           placeholder="username"
@@ -90,7 +87,7 @@ export default function Profile() {
           className="border p-3 rounded-lg"
         />
         <input
-          type="password"
+          type="text"
           placeholder="password"
           id="password"
           className="border p-3 rounded-lg"
@@ -99,7 +96,6 @@ export default function Profile() {
           Update
         </button>
       </form>
-
       <div className="flex justify-between mt-5">
         <span className="text-red-700 cursor-pointer">Delete Account</span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>

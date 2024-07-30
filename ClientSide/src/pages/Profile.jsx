@@ -11,7 +11,7 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
-} from '../redux/user/userSlice.js';
+} from '../redux/user/userSlice';
 export default function Profile() {
   const fileRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -21,6 +21,12 @@ export default function Profile() {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
+
+  // firebase storage
+  // allow read;
+  // allow write: if
+  // request.resource.size < 2 * 1024 * 1024 &&
+  // request.resource.contentType.matches('image/.*')
 
   useEffect(() => {
     if (file) {
@@ -79,7 +85,6 @@ export default function Profile() {
       dispatch(updateUserFailure(error.message));
     }
   };
-
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -93,7 +98,7 @@ export default function Profile() {
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={formData.profilePic || currentUser.profilepic}
+          src={formData.profilePic || currentUser.profilePic}
           alt="profile"
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
         />
@@ -121,21 +126,21 @@ export default function Profile() {
         <input
           type="email"
           placeholder="email"
-          defaultValue={currentUser.email}
           id="email"
+          defaultValue={currentUser.email}
           className="border p-3 rounded-lg"
           onChange={handleChange}
         />
         <input
           type="password"
           placeholder="password"
+          onChange={handleChange}
           id="password"
           className="border p-3 rounded-lg"
-          onChange={handleChange}
         />
         <button
           disabled={loading}
-          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
         >
           {loading ? 'Loading...' : 'Update'}
         </button>
@@ -144,9 +149,10 @@ export default function Profile() {
         <span className="text-red-700 cursor-pointer">Delete Account</span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
+
       <p className="text-red-700 mt-5">{error ? error : ''}</p>
       <p className="text-green-700 mt-5">
-        {updateSuccess ? 'User is Updated Successfully' : ''}
+        {updateSuccess ? 'User is Updated Successfully!' : ''}
       </p>
     </div>
   );
